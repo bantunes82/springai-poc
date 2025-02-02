@@ -1,21 +1,25 @@
 package spring.ai.chatclient;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 import java.util.Map;
 
 @RestController
-public class MyController {
+public class ChatClientController {
 
     private ChatClient chatClient;
 
-    public MyController(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public ChatClientController(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder
+                .defaultAdvisors(new SimpleLoggerAdvisor())
+                .build();
     }
 
     @GetMapping(value = "/joke", produces = "text/plain")
@@ -25,6 +29,16 @@ public class MyController {
         return chatClient.prompt()
                 .user(userInput)
                 .call()
+                .content();
+    }
+
+    @GetMapping(value = "/async/joke", produces = "text/plain")
+    Flux<String> asyncJoke() {
+        var userInput = "Tell me a joke";
+
+        return chatClient.prompt()
+                .user(userInput)
+                .stream()
                 .content();
     }
 
