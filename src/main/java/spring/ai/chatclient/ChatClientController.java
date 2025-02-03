@@ -4,6 +4,8 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,8 +38,12 @@ public class ChatClientController {
     Flux<String> asyncJoke() {
         var userInput = "Tell me a joke";
 
-        return chatClient.prompt()
-                .user(userInput)
+        var prompt = new Prompt(userInput, OpenAiChatOptions.builder()
+                .model(OpenAiApi.ChatModel.GPT_4_TURBO)
+                .temperature(0.4)
+                .build());
+
+        return chatClient.prompt(prompt)
                 .stream()
                 .content();
     }
