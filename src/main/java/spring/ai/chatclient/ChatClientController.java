@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 public class ChatClientController {
 
-    private ChatClient chatClient;
+    private final ChatClient chatClient;
 
     public ChatClientController(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder
