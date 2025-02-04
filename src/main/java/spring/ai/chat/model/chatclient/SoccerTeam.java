@@ -1,4 +1,4 @@
-package spring.ai.chatclient;
+package spring.ai.chat.model.chatclient;
 
 import java.util.List;
 

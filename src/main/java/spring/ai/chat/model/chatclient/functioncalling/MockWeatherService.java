@@ -1,4 +1,4 @@
-package spring.ai.functioncalling;
+package spring.ai.chat.model.chatclient.functioncalling;
 
 import java.util.function.Function;
 

@@ -1,4 +1,4 @@
-package spring.ai.functioncalling;
+package spring.ai.chat.model.chatclient.functioncalling;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ToolContext;
@@ -35,7 +35,7 @@ public class FunctionCallController {
     }
 
     @GetMapping(value = "/weather/toolContext", produces = "text/plain")
-    String getWeatherToolContext(@RequestParam(defaultValue = "What's the weather like in San Francisco, Tokyo, and Paris?") String location){
+    String getWeatherToolContext(@RequestParam(value = "message", defaultValue = "What's the weather like in San Francisco, Tokyo, and Paris?") String message){
         BiFunction<MockWeatherService.Request, ToolContext, MockWeatherService.Response> weatherFunction =
                 (request, toolContext) -> {
                     String sessionId = (String) toolContext.getContext().get("sessionId");
@@ -66,7 +66,7 @@ public class FunctionCallController {
                 .toolContext(Map.of("sessionId", "123", "userId", "user456"))
                 .build();
 
-        var prompt = new Prompt(location, options);
+        var prompt = new Prompt(message, options);
 
         return chatClient.prompt(prompt)
                 .call()
