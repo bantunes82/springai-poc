@@ -9,9 +9,9 @@ public class TooCallController {
 
     private final ChatClient chatClient;
 
-    public TooCallController(ChatClient.Builder chatClientBuilder) {
+    public TooCallController(ChatClient.Builder chatClientBuilder, DateTimeTools dateTimeTools) {
         this.chatClient = chatClientBuilder
-                .defaultTools(new DateTimeTools())
+                .defaultTools(dateTimeTools)
                 .build();
     }
 

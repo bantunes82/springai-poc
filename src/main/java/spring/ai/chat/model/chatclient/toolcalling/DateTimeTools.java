@@ -1,6 +1,7 @@
 package spring.ai.chat.model.chatclient.toolcalling;
 
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ public class DateTimeTools {
     }
 
     @Tool(description = "Set a user alarm for the given time, provided in ISO-8601 format")
-    void setAlarm(String time){
+    void setAlarm(@ToolParam(description = "Time in ISO-8601 format") String time){
         LocalDateTime alarmTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME);
         System.out.println("Alarm set for "+alarmTime);
     }
