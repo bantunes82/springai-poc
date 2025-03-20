@@ -1,6 +1,7 @@
 package spring.ai.chat.model.chatclient.toolcalling;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +12,7 @@ public class TooCallController {
 
     public TooCallController(ChatClient.Builder chatClientBuilder, DateTimeTools dateTimeTools) {
         this.chatClient = chatClientBuilder
+                .defaultAdvisors(new SimpleLoggerAdvisor())
                 .defaultTools(dateTimeTools)
                 .build();
     }
